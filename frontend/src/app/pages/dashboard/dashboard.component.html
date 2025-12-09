@@ -1,0 +1,146 @@
+<!-- src/app/pages/dashboard/dashboard.component.html -->
+
+<h1 class="page-title">MarketMind Dashboard</h1>
+
+<!-- ===================================================
+     WATCHLIST OVERVIEW SECTION
+=================================================== -->
+<mat-card class="watchlist-section">
+  <h2>Your Watchlist</h2>
+
+  <!-- Loading spinner -->
+  <mat-progress-spinner
+    *ngIf="watchlistLoading"
+    mode="indeterminate"
+    class="loading-spinner"
+  ></mat-progress-spinner>
+
+  <!-- Empty -->
+  <p *ngIf="!watchlistLoading && watchlist.length === 0" class="empty">
+    You have no tickers in your watchlist.
+  </p>
+
+  <!-- Watchlist tiles -->
+  <div class="watchlist-grid" *ngIf="watchlist.length > 0">
+    <mat-card
+      class="watchlist-card"
+      *ngFor="let item of watchlist"
+      (click)="openTicker(item.ticker)"
+    >
+      <h3>{{ item.displayName }} — {{ item.ticker }}</h3>
+
+      <p *ngIf="item.price !== null" class="price">
+        Price: ${{ item.price }}
+      </p>
+
+      <div class="sentiment-group">
+        <p><strong>Pos:</strong> {{ item.sentiment.positive }}</p>
+        <p><strong>Neu:</strong> {{ item.sentiment.neutral }}</p>
+        <p><strong>Neg:</strong> {{ item.sentiment.negative }}</p>
+      </div>
+
+      <p *ngIf="item.latest" class="latest-title">{{ item.latest.title }}</p>
+
+      <p *ngIf="item.latest">
+        Latest sentiment:
+        <span [ngClass]="item.latest.sentiment">
+          {{ item.latest.sentiment | titlecase }}
+        </span>
+      </p>
+    </mat-card>
+  </div>
+</mat-card>
+
+
+<!-- ===================================================
+     SEARCH SECTION
+=================================================== -->
+<mat-card class="search-card">
+  <h2>Search News by Ticker</h2>
+
+  <div class="search-row">
+    <input
+      matInput
+      placeholder="Enter ticker (AAPL, TSLA...)"
+      [(ngModel)]="query"
+    >
+    <button mat-raised-button color="primary" (click)="search()">Search</button>
+  </div>
+
+  <p *ngIf="errorMsg" class="error">{{ errorMsg }}</p>
+</mat-card>
+
+
+<!-- ===================================================
+     SEARCH RESULTS (from Step 3)
+=================================================== -->
+
+<mat-progress-spinner
+  *ngIf="loading"
+  mode="indeterminate"
+  class="loading-spinner"
+></mat-progress-spinner>
+
+<mat-card *ngIf="result" class="results-card">
+
+  <div class="header-row">
+    <div>
+      <h2>{{ result.ticker }}</h2>
+      <p class="subtext">Last 20 News Sentiments</p>
+    </div>
+
+    <button mat-raised-button color="accent" (click)="addToWatchlist()">
+      Add to Watchlist
+    </button>
+  </div>
+
+  <div class="sentiment-summary">
+    <p><strong>Positive:</strong> {{ result.sentiment.positive }}</p>
+    <p><strong>Neutral:</strong> {{ result.sentiment.neutral }}</p>
+    <p><strong>Negative:</strong> {{ result.sentiment.negative }}</p>
+  </div>
+
+  <hr>
+
+  <h3>Latest Article</h3>
+
+  <div *ngIf="result.articles.length > 0">
+    <p class="latest-title">
+      {{ result.articles[0].title }}
+    </p>
+
+    <p>
+      Sentiment:
+      <span [ngClass]="getSentimentFromArticle(result.articles[0])">
+        {{ getSentimentFromArticle(result.articles[0]) | titlecase }}
+      </span>
+    </p>
+
+    <p>
+      <a href="{{ result.articles[0].article_url }}" target="_blank">
+        Read Article →
+      </a>
+    </p>
+  </div>
+
+  <hr>
+
+  <h3>All Recent Articles</h3>
+
+  <div class="article-list">
+    <div *ngFor="let article of result.articles" class="article-card">
+      <p class="article-title">{{ article.title }}</p>
+
+      <p>
+        Sentiment:
+        <span [ngClass]="getSentimentFromArticle(article)">
+          {{ getSentimentFromArticle(article) | titlecase }}
+        </span>
+      </p>
+
+      <a href="{{ article.article_url }}" target="_blank">
+        Open Article →
+      </a>
+    </div>
+  </div>
+</mat-card>

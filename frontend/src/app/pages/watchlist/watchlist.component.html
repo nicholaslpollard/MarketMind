@@ -1,0 +1,64 @@
+<!-- src/app/pages/watchlist/watchlist.component.html -->
+
+<h1 class="page-title">Your Watchlist</h1>
+
+<!-- Add ticker form -->
+<mat-card class="add-card">
+  <h3>Add a new ticker</h3>
+
+  <div class="add-row">
+    <input
+      matInput
+      placeholder="Enter ticker (AAPL, TSLA...)"
+      [(ngModel)]="addTicker"
+    >
+    <button mat-raised-button color="primary" (click)="addNewTicker()">
+      Add
+    </button>
+  </div>
+</mat-card>
+
+<!-- Loading -->
+<mat-progress-spinner
+  *ngIf="loading"
+  mode="indeterminate"
+  class="loading-spinner"
+></mat-progress-spinner>
+
+<!-- Error -->
+<p *ngIf="errorMsg" class="error">{{ errorMsg }}</p>
+
+<!-- When empty -->
+<p *ngIf="!loading && watchlist.length === 0" class="empty">
+  You have no watchlist items.
+</p>
+
+<!-- Watchlist grid -->
+<div class="watchlist-grid" *ngIf="watchlist.length > 0">
+  <mat-card class="watchlist-card" *ngFor="let item of watchlist">
+    <div class="header-row">
+      <h2>{{ item.displayName }} — {{ item.ticker }}</h2>
+      <button mat-mini-fab color="warn" (click)="remove(item.ticker)">
+        X
+      </button>
+    </div>
+
+    <p class="price" *ngIf="item.price !== null">Price: ${{ item.price }}</p>
+
+    <div class="sentiment-group">
+      <p><strong>Positive:</strong> {{ item.sentiment.positive }}</p>
+      <p><strong>Neutral:</strong> {{ item.sentiment.neutral }}</p>
+      <p><strong>Negative:</strong> {{ item.sentiment.negative }}</p>
+    </div>
+
+    <div *ngIf="item.latest">
+      <p class="latest-title">{{ item.latest.title }}</p>
+      <p>
+        Sentiment:
+        <span [ngClass]="item.latest.sentiment">
+          {{ item.latest.sentiment | titlecase }}
+        </span>
+      </p>
+    </div>
+  </mat-card>
+</div>

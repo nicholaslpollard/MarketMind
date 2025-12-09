@@ -1,0 +1,58 @@
+/* src/app/pages/watchlist/watchlist.component.css */
+
+.add-card {
+  padding: 20px;
+  margin-bottom: 25px;
+}
+
+.add-row {
+  display: flex;
+  gap: 15px;
+  margin-top: 10px;
+}
+
+.watchlist-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.watchlist-card {
+  padding: 15px;
+}
+
+.header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.price {
+  font-size: 1.2rem;
+}
+
+.sentiment-group {
+  display: flex;
+  gap: 15px;
+  margin: 10px 0;
+}
+
+.latest-title {
+  font-weight: bold;
+}
+
+.positive {
+  color: green;
+}
+.neutral {
+  color: goldenrod;
+}
+.negative {
+  color: red;
+}
+
+.empty {
+  font-style: italic;
+  margin-top: 15px;
+}

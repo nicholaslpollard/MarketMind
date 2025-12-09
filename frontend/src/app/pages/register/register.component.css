@@ -1,0 +1,40 @@
+/* src/app/pages/register/register.component.css */
+
+.auth-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 80px;
+  padding: 0 20px;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 420px;
+  padding: 30px;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.full {
+  width: 100%;
+}
+
+.success {
+  color: green;
+  margin-top: 12px;
+  text-align: center;
+}
+
+.error {
+  color: red;
+  margin-top: 12px;
+  text-align: center;
+}
+
+.bottom-link {
+  margin-top: 15px;
+  text-align: center;
+}
