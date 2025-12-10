@@ -1,11 +1,11 @@
 {
-  "name": "inf656final",
+  "name": "marketmind",
   "version": "1.0.0",
-  "description": "MartketMind MEAN Stack Application",
+  "description": "MartketMind MEAN Stack Application for the INF 656 Final Project",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": ""
   },
-  "author": "",
+  "author": "Nicholas Pollard",
   "license": "ISC"
 }
