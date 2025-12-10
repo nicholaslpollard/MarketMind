@@ -18,8 +18,6 @@ This README contains full setup instructions so anyone can install and run the e
 - **Node.js 22.21.1**
 - **npm 9.8.1**
 - **Angular CLI 16.2.16**  
-   Install with:
-   npm install -g @angular/cli
 - **MongoDB Atlas account (Provided)**
 - **Massive.com (formally Polygon.io) account (Provided)**
 - **Express 5.2.1**
@@ -150,14 +148,13 @@ cd backend
 ```
 
 ### 3.2 Install dependencies
-(Already installed in the classroom environment, but normally you would run:)
 ```
 npm install
 ```
 
 ### 3.3 Create your `.env` file  
 Inside `/backend`, create a file named **.env**:
-
+This file is included for project submission.
 ```
 MONGO_URI=YOUR_MONGODB_CONNECTION_STRING
 JWT_SECRET=CHOOSE_A_SECRET_KEY
@@ -193,8 +190,8 @@ npm install
 ```
 
 ### 4.3 Install Angular CLI **16.2.16 specifically**  
-Angular 17+ is **not compatible** with this project.  
-Run this to force-install the correct CLI version:
+Angular 16.2.16 is used with this project.  
+Run this to force-install the crrect CLI version:
 
 ```
 npm install -g @angular/cli@16.2.16
