@@ -4,17 +4,17 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 export interface WatchlistSummaryItem {
-  ticker: string;
-  displayName: string;
-  price: number | null;
+  ticker: string; // stock symbol
+  displayName: string; // display name
+  price: number | null; // last price
   sentiment: {
-    positive: number;
-    neutral: number;
-    negative: number;
+    positive: number; // positive count
+    neutral: number; // neutral count
+    negative: number; // negative count
   };
   latest: {
-    title: string;
-    sentiment: string;
+    title: string; // latest headline
+    sentiment: string; // latest sentiment
   } | null;
 }
 
@@ -22,29 +22,25 @@ export interface WatchlistSummaryItem {
   providedIn: 'root'
 })
 export class WatchlistService {
-  private apiUrl = '/api/watchlist';
+  private apiUrl = '/api/watchlist'; // base endpoint
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {} // inject HTTP client
 
-  // Full watchlist overview
   getFullWatchlist(): Observable<WatchlistSummaryItem[]> {
-    return this.http.get<WatchlistSummaryItem[]>(`${this.apiUrl}/full`);
+    return this.http.get<WatchlistSummaryItem[]>(`${this.apiUrl}/full`); // fetch overview
   }
 
-  // Add ticker
   addToWatchlist(ticker: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/add`, { ticker });
+    return this.http.post(`${this.apiUrl}/add`, { ticker }); // add ticker
   }
 
-  // Remove ticker
   removeFromWatchlist(ticker: string): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/${ticker}`);
+    return this.http.delete(`${this.apiUrl}/${ticker}`); // remove ticker
   }
 
-  // NEW — Get price for a single ticker
   getPrice(ticker: string) {
     return this.http.get<{ ticker: string; price: number }>(
-      `${this.apiUrl}/price/${ticker}`
+      `${this.apiUrl}/price/${ticker}` // fetch price for ticker
     );
   }
 }

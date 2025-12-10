@@ -9,33 +9,33 @@ import { WatchlistService } from '../../core/services/watchlist.service';
 })
 export class WatchlistComponent {
 
-  watchlist: any[] = [];
+  watchlist: any[] = []; // list of watchlist items
 
   constructor(
-    private router: Router,
-    private watchlistService: WatchlistService
+    private router: Router, // router for navigation
+    private watchlistService: WatchlistService // service for watchlist API
   ) {}
 
   ngOnInit() {
-    this.load();
+    this.load(); // load watchlist on page load
   }
 
   load() {
     this.watchlistService.getFullWatchlist().subscribe({
-      next: (data) => this.watchlist = data,
-      error: (err) => console.error(err)
+      next: (data) => this.watchlist = data, // store response
+      error: (err) => console.error(err) // log error
     });
   }
 
   openTicker(symbol: string) {
-    this.router.navigate(['/ticker', symbol]);
+    this.router.navigate(['/ticker', symbol]); // navigate to ticker page
   }
 
   deleteItem(symbol: string, event: Event) {
-    event.stopPropagation();  // prevent card click navigation
+    event.stopPropagation(); // prevent card click from triggering navigation
     this.watchlistService.removeFromWatchlist(symbol).subscribe({
-      next: () => this.load(),
-      error: (err) => console.error(err)
+      next: () => this.load(), // reload watchlist after deletion
+      error: (err) => console.error(err) // log error
     });
   }
 }

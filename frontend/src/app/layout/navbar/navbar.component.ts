@@ -9,37 +9,37 @@ import { AuthService } from '../../core/services/auth.service';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit, OnDestroy {
-  loggedIn = false;
-  userEmail: string | null = null;
+  loggedIn = false; // login state
+  userEmail: string | null = null; // displayed email
 
-  private sub = new Subscription();
+  private sub = new Subscription(); // subscription container
 
   constructor(
-    private authService: AuthService,
-    private router: Router
+    private authService: AuthService, // auth service
+    private router: Router // router service
   ) {}
 
   ngOnInit(): void {
 
-    // Listen to login status changes
+    // watch login status updates
     this.sub.add(
       this.authService.loginStatus$.subscribe(status => {
         this.loggedIn = status;
       })
     );
 
-    // Listen for email changes
+    // watch email changes
     this.sub.add(
       this.authService.userEmail$.subscribe(email => {
         this.userEmail = email;
       })
     );
 
-    // Set initial navbar state
+    // set initial logged-in state
     this.loggedIn = this.authService.isLoggedIn();
-    this.authService.ensureEmailLoaded();
+    this.authService.ensureEmailLoaded(); // restore email if needed
 
-    // Update when navigation occurs
+    // update navbar state after route changes
     this.sub.add(
       this.router.events.subscribe(event => {
         if (event instanceof NavigationEnd) {
@@ -49,8 +49,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
     );
   }
 
-  // NEW: Handle brand click
   goHome() {
+    // route based on auth status
     if (this.loggedIn) {
       this.router.navigate(['/dashboard']);
     } else {
@@ -59,11 +59,11 @@ export class NavbarComponent implements OnInit, OnDestroy {
   }
 
   logout(): void {
-    this.authService.logout();
-    this.router.navigate(['/login']);
+    this.authService.logout(); // clear session
+    this.router.navigate(['/login']); // redirect to login
   }
 
   ngOnDestroy(): void {
-    this.sub.unsubscribe();
+    this.sub.unsubscribe(); // clean up subscriptions
   }
 }

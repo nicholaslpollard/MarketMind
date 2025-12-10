@@ -1,74 +1,74 @@
 .ticker-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  display: flex; /* header layout */
+  justify-content: space-between; /* space elements apart */
+  align-items: center; /* vertical alignment */
 }
 
 .ticker-symbol {
-  font-size: 2rem;
-  font-weight: 700;
+  font-size: 2rem; /* large ticker text */
+  font-weight: 700; /* bold symbol */
 }
 
 .ticker-price {
-  font-size: 1.4rem;
-  font-weight: 600;
-  color: #333;
+  font-size: 1.4rem; /* price size */
+  font-weight: 600; /* semi-bold */
+  color: #333; /* dark gray text */
 }
 
 .sent-section-title {
-  font-size: 1.1rem;
-  margin-top: 16px;
-  margin-bottom: 8px;
-  font-weight: 600;
+  font-size: 1.1rem; /* section header size */
+  margin-top: 16px; /* spacing above */
+  margin-bottom: 8px; /* spacing below */
+  font-weight: 600; /* semi-bold text */
 }
 
 .sent-grid {
-  display: flex;
-  justify-content: space-between;
-  max-width: 400px;
-  margin-bottom: 18px;
+  display: flex; /* sentiment grid layout */
+  justify-content: space-between; /* spread evenly */
+  max-width: 400px; /* limit grid width */
+  margin-bottom: 18px; /* spacing under grid */
 }
 
 .sent-item {
-  display: flex;
-  flex-direction: column;
+  display: flex; /* vertical stack */
+  flex-direction: column; /* column layout */
 }
 
 .sent-label {
-  font-weight: 600;
-  margin-bottom: 3px;
+  font-weight: 600; /* bold sentiment label */
+  margin-bottom: 3px; /* small spacing */
 }
 
-.sent-pos { color: #0c7c0c; }
-.sent-neutral { color: #777; }
-.sent-neg { color: #b40f0f; }
+.sent-pos { color: #0c7c0c; } /* green positive */
+.sent-neutral { color: #777; } /* gray neutral */
+.sent-neg { color: #b40f0f; } /* red negative */
 
 .latest-box {
-  margin-top: 15px;
-  padding-top: 10px;
-  border-top: 1px solid #ccc;
+  margin-top: 15px; /* spacing above */
+  padding-top: 10px; /* padding inside top */
+  border-top: 1px solid #ccc; /* divider line */
 }
 
 .latest-title {
-  font-size: 1.1rem;
-  font-weight: 600;
-  margin-top: 4px;
+  font-size: 1.1rem; /* title size */
+  font-weight: 600; /* bold */
+  margin-top: 4px; /* spacing above */
 }
 
 .latest-meta {
-  font-size: 0.85rem;
-  color: #666;
-  margin-bottom: 10px;
+  font-size: 0.85rem; /* smaller meta text */
+  color: #666; /* muted color */
+  margin-bottom: 10px; /* spacing below */
 }
 
 .article-card .article-title {
-  font-size: 1.15rem;
-  font-weight: 600;
-  margin-bottom: 4px;
+  font-size: 1.15rem; /* article title size */
+  font-weight: 600; /* bold */
+  margin-bottom: 4px; /* spacing under title */
 }
 
 .article-card .article-meta {
-  font-size: 0.85rem;
-  color: #666;
-  margin-bottom: 10px;
+  font-size: 0.85rem; /* meta text size */
+  color: #666; /* muted color */
+  margin-bottom: 10px; /* spacing under meta */
 }

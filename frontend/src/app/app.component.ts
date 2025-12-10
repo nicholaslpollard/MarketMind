@@ -11,7 +11,7 @@ export class AppComponent implements OnInit {
   constructor(private auth: AuthService) {}
 
   ngOnInit() {
-    // Make sure navbar has the user email immediately
+    // Navbar has user email 
     this.auth.ensureEmailLoaded();
   }
 }

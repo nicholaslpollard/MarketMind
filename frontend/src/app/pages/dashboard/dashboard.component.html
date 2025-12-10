@@ -1,16 +1,17 @@
-<!-- 🔍 SEARCH SECTION -->
+<!-- SEARCH SECTION -->
 <mat-card
   class="mm-card"
   style="max-width: 450px; margin: 0 auto 20px auto;"
 >
-
+  <!-- card title -->
   <div class="mm-card-title" style="text-align:center;">
     Search Stock News
   </div>
 
-  <!-- Centered Search Box -->
+  <!-- centered search input area -->
   <div style="display:flex; flex-direction:column; align-items:center;">
 
+    <!-- ticker input field -->
     <mat-form-field
       appearance="outline"
       style="width: 320px; max-width: 90%;"
@@ -20,10 +21,11 @@
         matInput
         [(ngModel)]="query"
         placeholder="Enter a ticker"
-        (keyup.enter)="search()"
+        (keyup.enter)="search()" 
       />
     </mat-form-field>
 
+    <!-- search button -->
     <button
       mat-raised-button
       color="primary"
@@ -34,19 +36,19 @@
     </button>
 
   </div>
-
 </mat-card>
 
-<!-- ❌ INVALID TICKER MESSAGE -->
+<!-- error message for invalid ticker -->
 <mat-card *ngIf="searchError" class="mm-card" style="margin-top: 25px; color: #b20000; font-weight: 600;">
   {{ searchError }}
 </mat-card>
 
-<!-- ⭐ WATCHLIST SUMMARY (HIDDEN IF SEARCH RESULT SHOWN) -->
+<!-- watchlist header shown only when no search results -->
 <div *ngIf="!latest && !sentiment" class="mm-card-title" style="margin-top: 30px;">
   Your Watchlist
 </div>
 
+<!-- watchlist item grid -->
 <div class="watchlist-grid" *ngIf="!latest && !sentiment">
   <mat-card
     class="mm-card"
@@ -54,20 +56,25 @@
     (click)="openTicker(item.ticker)"
     style="cursor: pointer;"
   >
+    <!-- ticker display -->
     <div class="watchlist-ticker">{{ item.ticker }}</div>
 
+    <!-- price display -->
     <div class="watchlist-price">
       {{ item.price ? ('$' + item.price.toFixed(2)) : '—' }}
     </div>
 
+    <!-- sentiment header -->
     <div class="mm-card-subtitle">Last 20 Sentiments:</div>
 
+    <!-- sentiment counts -->
     <div>
       <div class="sent-pos">Positive: {{ item.sentiment?.positive }}</div>
       <div class="sent-neutral">Neutral: {{ item.sentiment?.neutral }}</div>
       <div class="sent-neg">Negative: {{ item.sentiment?.negative }}</div>
     </div>
 
+    <!-- latest article preview -->
     <div class="latest-article" *ngIf="item.latest">
       <strong>Latest:</strong> <br />
       {{ item.latest.title }}
@@ -75,7 +82,7 @@
   </mat-card>
 </div>
 
-<!-- ⭐ SEARCH RESULTS CARD (CLICKABLE) -->
+<!-- search results card -->
 <mat-card
   *ngIf="latest || sentiment"
   class="mm-card"
@@ -83,7 +90,7 @@
   (click)="openTicker(query.toUpperCase())"
 >
 
-  <!-- ❌ CLOSE BUTTON -->
+  <!-- close search button -->
   <button
     mat-icon-button
     (click)="clearSearch(); $event.stopPropagation()"
@@ -93,10 +100,12 @@
     X
   </button>
 
+  <!-- search result ticker title -->
   <div class="mm-card-title">
     {{ query.toUpperCase() }}
   </div>
 
+  <!-- sentiment summary -->
   <div class="mm-card-subtitle">Last 20 News Sentiments:</div>
 
   <div style="margin-bottom: 12px;">
@@ -105,10 +114,11 @@
     <span class="sent-neg">Negative: {{ sentiment?.negative }}</span>
   </div>
 
-  <!-- Latest Article -->
+  <!-- latest article block -->
   <div class="article-card" *ngIf="latest">
     <div class="article-title">{{ latest.title }}</div>
 
+    <!-- article metadata -->
     <div class="article-meta">
       {{ latest.published_utc | date:'short' }} •
       <span
@@ -122,6 +132,7 @@
       </span>
     </div>
 
+    <!-- external article link -->
     <a
       [href]="latest.article_url"
       target="_blank"
@@ -130,6 +141,7 @@
       Read Article
     </a>
 
+    <!-- add to watchlist button -->
     <button
       mat-button
       color="accent"

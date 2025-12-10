@@ -1,9 +1,13 @@
 <!-- src/app/pages/login/login.component.html -->
+
 <div class="auth-page">
   <mat-card class="auth-card">
     <h1>Login</h1>
 
+    <!-- login form -->
     <form (ngSubmit)="login()">
+
+      <!-- email input -->
       <mat-form-field appearance="outline" class="full-width">
         <mat-label>Email</mat-label>
         <input
@@ -15,6 +19,7 @@
         />
       </mat-form-field>
 
+      <!-- password input -->
       <mat-form-field appearance="outline" class="full-width">
         <mat-label>Password</mat-label>
         <input
@@ -26,6 +31,7 @@
         />
       </mat-form-field>
 
+      <!-- submit button -->
       <button
         mat-raised-button
         color="primary"
@@ -36,9 +42,11 @@
         {{ loading ? 'Logging in…' : 'Login' }}
       </button>
 
+      <!-- error message -->
       <p class="error" *ngIf="errorMsg">{{ errorMsg }}</p>
     </form>
 
+    <!-- registration link -->
     <p class="auth-switch">
       Don’t have an account?
       <a routerLink="/register">Register here</a>

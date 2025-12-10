@@ -20,7 +20,7 @@ app.use(express.json());
 // Connect to MongoDB
 connectDB();
 
-// Health check
+// Check
 app.get('/', (req, res) => {
   res.json({ message: 'MarketMind API is running' });
 });

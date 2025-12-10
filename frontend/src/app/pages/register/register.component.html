@@ -1,9 +1,13 @@
 <!-- src/app/pages/register/register.component.html -->
+
 <div class="auth-page">
   <mat-card class="auth-card">
     <h1>Create Account</h1>
 
+    <!-- registration form -->
     <form (ngSubmit)="register()">
+
+      <!-- email input -->
       <mat-form-field appearance="outline" class="full-width">
         <mat-label>Email</mat-label>
         <input
@@ -15,6 +19,7 @@
         />
       </mat-form-field>
 
+      <!-- password input -->
       <mat-form-field appearance="outline" class="full-width">
         <mat-label>Password</mat-label>
         <input
@@ -26,6 +31,7 @@
         />
       </mat-form-field>
 
+      <!-- submit button -->
       <button
         mat-raised-button
         color="primary"
@@ -36,10 +42,14 @@
         {{ loading ? 'Creating account…' : 'Register' }}
       </button>
 
+      <!-- success message -->
       <p class="success" *ngIf="successMsg">{{ successMsg }}</p>
+
+      <!-- error message -->
       <p class="error" *ngIf="errorMsg">{{ errorMsg }}</p>
     </form>
 
+    <!-- login link -->
     <p class="auth-switch">
       Already have an account?
       <a routerLink="/login">Log in here</a>

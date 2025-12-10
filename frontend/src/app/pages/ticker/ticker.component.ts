@@ -10,37 +10,37 @@ import { WatchlistService } from '../../core/services/watchlist.service';
 })
 export class TickerComponent implements OnInit {
 
-  symbol: string = '';
-  articles: any[] = [];
+  symbol: string = ''; // ticker symbol
+  articles: any[] = []; // list of articles
 
   sentiment = {
-    positive: 0,
-    neutral: 0,
-    negative: 0
+    positive: 0, // positive count
+    neutral: 0, // neutral count
+    negative: 0 // negative count
   };
 
-  price: number | null = null;
-  latestArticle: any = null;
+  price: number | null = null; // last price value
+  latestArticle: any = null; // latest article
 
   constructor(
-    private route: ActivatedRoute,
-    private newsService: NewsService,
-    private watchlistService: WatchlistService
+    private route: ActivatedRoute, // route parameters
+    private newsService: NewsService, // news API service
+    private watchlistService: WatchlistService // price API service
   ) {}
 
   ngOnInit() {
-    this.symbol = this.route.snapshot.paramMap.get('symbol')!.toUpperCase();
-    this.loadNews();
-    this.loadPrice();
+    this.symbol = this.route.snapshot.paramMap.get('symbol')!.toUpperCase(); // get ticker from route
+    this.loadNews(); // load headlines
+    this.loadPrice(); // load pricing
   }
 
   loadNews() {
     this.newsService.searchNews(this.symbol).subscribe(res => {
-      this.articles = res.articles || [];
-      this.sentiment = res.sentiment || this.sentiment;
+      this.articles = res.articles || []; // store articles
+      this.sentiment = res.sentiment || this.sentiment; // store sentiment
 
       if (this.articles.length > 0) {
-        this.latestArticle = this.articles[0];
+        this.latestArticle = this.articles[0]; // first article is latest
       }
     });
   }
@@ -48,10 +48,10 @@ export class TickerComponent implements OnInit {
   loadPrice() {
     this.watchlistService.getPrice(this.symbol).subscribe({
       next: (res) => {
-        this.price = res.price;
+        this.price = res.price; // store price
       },
       error: () => {
-        this.price = null;
+        this.price = null; // fallback if unavailable
       }
     });
   }

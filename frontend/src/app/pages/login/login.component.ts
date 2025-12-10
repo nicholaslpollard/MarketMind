@@ -9,37 +9,37 @@ import { AuthService } from '../../core/services/auth.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
-  email = '';
-  password = '';
-  errorMsg = '';
-  loading = false;
+  email = ''; // input email
+  password = ''; // input password
+  errorMsg = ''; // error message display
+  loading = false; // loading flag
 
   constructor(
-    private auth: AuthService,
-    private router: Router
+    private auth: AuthService, // auth service
+    private router: Router // router navigation
   ) {}
 
   login(): void {
-    this.errorMsg = '';
-    this.loading = true;
+    this.errorMsg = ''; // clear previous errors
+    this.loading = true; // show loading state
 
-    const email = this.email.trim();
-    const password = this.password;
+    const email = this.email.trim(); // clean email
+    const password = this.password; // read password
 
     if (!email || !password) {
-      this.errorMsg = 'Email and password are required.';
+      this.errorMsg = 'Email and password are required.'; // validation
       this.loading = false;
       return;
     }
 
     this.auth.login(email, password).subscribe({
       next: () => {
-        this.loading = false;
-        this.router.navigate(['/dashboard']);
+        this.loading = false; // stop loading
+        this.router.navigate(['/dashboard']); // redirect on success
       },
       error: (err) => {
-        this.loading = false;
-        this.errorMsg = err?.error?.message || 'Invalid email or password.';
+        this.loading = false; // stop loading
+        this.errorMsg = err?.error?.message || 'Invalid email or password.'; // show error
       }
     });
   }

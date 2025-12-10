@@ -9,7 +9,7 @@ const {
 // Basic search (used by dashboard)
 router.get('/:ticker', searchNews);
 
-// NEW — Full news package
+// News package
 router.get('/:ticker/full', getFullTickerNews);
 
 module.exports = router;

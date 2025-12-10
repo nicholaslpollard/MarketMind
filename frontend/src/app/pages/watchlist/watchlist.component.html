@@ -1,15 +1,18 @@
 <div class="container" style="max-width: 1000px; margin: 30px auto;">
 
+  <!-- watchlist header -->
   <div class="mm-card-title">Your Watchlist</div>
 
+  <!-- watchlist grid -->
   <div class="watchlist-grid">
     <mat-card
       class="mm-card"
       *ngFor="let item of watchlist"
-      (click)="openTicker(item.ticker)"
+      (click)="openTicker(item.ticker)" 
       style="cursor: pointer; position: relative; padding-bottom: 50px;"
     >
 
+      <!-- ticker row with price -->
       <div style="display:flex; justify-content:space-between; align-items:center;">
         <div class="watchlist-ticker">{{ item.ticker }}</div>
         <div class="watchlist-price">
@@ -17,10 +20,12 @@
         </div>
       </div>
 
+      <!-- sentiment title -->
       <div class="mm-card-subtitle" style="margin-top: 10px; margin-bottom: 8px;">
         Last 20 Sentiment Summary:
       </div>
 
+      <!-- sentiment values -->
       <div style="line-height: 1.7;">
         <span class="sent-pos">
           Positive: {{ item.sentiment?.positive }}
@@ -40,6 +45,7 @@
         </span>
       </div>
 
+      <!-- latest article snippet -->
       <div class="latest-article" *ngIf="item.latest" style="margin-top: 14px;">
         <strong>Latest:</strong><br />
         <span class="article-title">{{ item.latest.title }}</span>
@@ -56,7 +62,7 @@
         </span>
       </div>
 
-      <!-- Bottom-right delete button -->
+      <!-- delete button bottom-right -->
       <div style="
         position: absolute;
         bottom: 10px;

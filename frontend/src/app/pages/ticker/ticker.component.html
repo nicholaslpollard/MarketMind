@@ -3,6 +3,7 @@
   <!-- HEADER SECTION -->
   <mat-card class="mm-card" style="margin-bottom: 25px;">
 
+    <!-- ticker symbol and price -->
     <div class="ticker-header">
       <div class="ticker-symbol">{{ symbol }}</div>
 
@@ -11,9 +12,10 @@
       </div>
     </div>
 
-    <!-- Sentiment Summary -->
+    <!-- sentiment summary header -->
     <div class="sent-section-title">Last 20 Sentiment Summary</div>
 
+    <!-- sentiment counts -->
     <div class="sent-grid">
       <div class="sent-item">
         <span class="sent-label sent-pos">Positive:</span>
@@ -31,11 +33,13 @@
       </div>
     </div>
 
-    <!-- Latest Article -->
+    <!-- LATEST ARTICLE -->
     <div *ngIf="latestArticle" class="latest-box">
       <strong>Latest Article</strong>
+
       <div class="latest-title">{{ latestArticle.title }}</div>
 
+      <!-- article metadata -->
       <div class="latest-meta">
         {{ latestArticle.published_utc | date:'short' }} •
         <span
@@ -49,6 +53,7 @@
         </span>
       </div>
 
+      <!-- article link -->
       <a [href]="latestArticle.article_url" target="_blank">
         Read Article
       </a>
@@ -62,8 +67,10 @@
     style="margin-bottom: 18px;"
   >
 
+    <!-- article title -->
     <div class="article-title">{{ a.title }}</div>
 
+    <!-- article metadata -->
     <div class="article-meta">
       {{ a.published_utc | date:'short' }} •
       <span
@@ -77,6 +84,7 @@
       </span>
     </div>
 
+    <!-- article link -->
     <a [href]="a.article_url" target="_blank">
       Read Article
     </a>

@@ -1,55 +1,55 @@
 /* src/app/pages/register/register.component.css */
 
 .auth-page {
-  min-height: calc(100vh - 64px);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 24px;
+  min-height: calc(100vh - 64px); /* full height minus navbar */
+  display: flex; /* center container */
+  justify-content: center; /* horizontal center */
+  align-items: center; /* vertical center */
+  padding: 24px; /* outer spacing */
 }
 
 .auth-card {
-  width: 100%;
-  max-width: 400px;
-  padding: 24px 24px 16px;
+  width: 100%; /* responsive width */
+  max-width: 400px; /* limit card size */
+  padding: 24px 24px 16px; /* card padding */
 }
 
 .auth-card h1 {
-  margin-top: 0;
-  margin-bottom: 16px;
-  font-weight: 600;
-  text-align: center;
+  margin-top: 0; /* remove top margin */
+  margin-bottom: 16px; /* spacing under header */
+  font-weight: 600; /* bold title */
+  text-align: center; /* centered text */
 }
 
 .full-width {
-  width: 100%;
+  width: 100%; /* full width inputs */
 }
 
 .error {
-  color: #dc3545;
-  margin-top: 12px;
-  font-size: 0.9rem;
-  text-align: center;
+  color: #dc3545; /* error red */
+  margin-top: 12px; /* spacing above text */
+  font-size: 0.9rem; /* smaller text */
+  text-align: center; /* centered message */
 }
 
 .success {
-  color: #28a745;
-  margin-top: 12px;
-  font-size: 0.9rem;
-  text-align: center;
+  color: #28a745; /* success green */
+  margin-top: 12px; /* spacing */
+  font-size: 0.9rem; /* smaller text */
+  text-align: center; /* centered message */
 }
 
 .auth-switch {
-  margin-top: 16px;
-  text-align: center;
-  font-size: 0.9rem;
+  margin-top: 16px; /* spacing above switch */
+  text-align: center; /* centered text */
+  font-size: 0.9rem; /* small text */
 }
 
 .auth-switch a {
-  font-weight: 500;
-  text-decoration: none;
+  font-weight: 500; /* medium link weight */
+  text-decoration: none; /* remove underline */
 }
 
 .auth-switch a:hover {
-  text-decoration: underline;
+  text-decoration: underline; /* underline on hover */
 }

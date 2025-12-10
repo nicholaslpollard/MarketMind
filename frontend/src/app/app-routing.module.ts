@@ -15,31 +15,29 @@ import { AuthGuard } from './core/guards/auth.guard';
 const routes: Routes = [
   {
     path: '',
-    component: LayoutComponent,
+    component: LayoutComponent, // main layout wrapper
     children: [
-      // When NOT logged in → show HomeComponent
-      { path: '', component: HomeComponent },
+      { path: '', component: HomeComponent }, // homepage for guests
 
-      // Auth pages
+      // public auth pages
       { path: 'login', component: LoginComponent },
       { path: 'register', component: RegisterComponent },
 
-      // Protected pages
+      // protected pages
       { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
       { path: 'watchlist', component: WatchlistComponent, canActivate: [AuthGuard] },
       { path: 'settings', component: SettingsComponent, canActivate: [AuthGuard] },
 
-      // ⭐ NEW: Ticker details page
+      // ticker details route
       { path: 'ticker/:symbol', component: TickerComponent, canActivate: [AuthGuard] }
     ]
   },
 
-  // fallback
-  { path: '**', redirectTo: '' }
+  { path: '**', redirectTo: '' } // wildcard redirect
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  imports: [RouterModule.forRoot(routes)], // register routes
+  exports: [RouterModule] // export router module
 })
 export class AppRoutingModule {}
