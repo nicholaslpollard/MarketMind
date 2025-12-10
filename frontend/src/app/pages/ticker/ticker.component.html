@@ -1,0 +1,85 @@
+<div class="container" style="max-width: 900px; margin: 30px auto;">
+
+  <!-- HEADER SECTION -->
+  <mat-card class="mm-card" style="margin-bottom: 25px;">
+
+    <div class="ticker-header">
+      <div class="ticker-symbol">{{ symbol }}</div>
+
+      <div class="ticker-price" *ngIf="price !== null">
+        ${{ price.toFixed(2) }}
+      </div>
+    </div>
+
+    <!-- Sentiment Summary -->
+    <div class="sent-section-title">Last 20 Sentiment Summary</div>
+
+    <div class="sent-grid">
+      <div class="sent-item">
+        <span class="sent-label sent-pos">Positive:</span>
+        <span>{{ sentiment.positive }}</span>
+      </div>
+
+      <div class="sent-item">
+        <span class="sent-label sent-neutral">Neutral:</span>
+        <span>{{ sentiment.neutral }}</span>
+      </div>
+
+      <div class="sent-item">
+        <span class="sent-label sent-neg">Negative:</span>
+        <span>{{ sentiment.negative }}</span>
+      </div>
+    </div>
+
+    <!-- Latest Article -->
+    <div *ngIf="latestArticle" class="latest-box">
+      <strong>Latest Article</strong>
+      <div class="latest-title">{{ latestArticle.title }}</div>
+
+      <div class="latest-meta">
+        {{ latestArticle.published_utc | date:'short' }} •
+        <span
+          [ngClass]="{
+            'sent-pos': latestArticle.insights?.[0]?.sentiment === 'positive',
+            'sent-neutral': latestArticle.insights?.[0]?.sentiment === 'neutral',
+            'sent-neg': latestArticle.insights?.[0]?.sentiment === 'negative'
+          }"
+        >
+          {{ latestArticle.insights?.[0]?.sentiment | titlecase }}
+        </span>
+      </div>
+
+      <a [href]="latestArticle.article_url" target="_blank">
+        Read Article
+      </a>
+    </div>
+  </mat-card>
+
+  <!-- ARTICLE LIST -->
+  <mat-card
+    *ngFor="let a of articles"
+    class="mm-card article-card"
+    style="margin-bottom: 18px;"
+  >
+
+    <div class="article-title">{{ a.title }}</div>
+
+    <div class="article-meta">
+      {{ a.published_utc | date:'short' }} •
+      <span
+        [ngClass]="{
+          'sent-pos': a.insights?.[0]?.sentiment === 'positive',
+          'sent-neutral': a.insights?.[0]?.sentiment === 'neutral',
+          'sent-neg': a.insights?.[0]?.sentiment === 'negative'
+        }"
+      >
+        {{ a.insights?.[0]?.sentiment || 'neutral' }}
+      </span>
+    </div>
+
+    <a [href]="a.article_url" target="_blank">
+      Read Article
+    </a>
+  </mat-card>
+
+</div>

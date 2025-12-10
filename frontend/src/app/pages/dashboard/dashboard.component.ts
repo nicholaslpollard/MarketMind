@@ -1,91 +1,86 @@
-// src/app/pages/dashboard/dashboard.component.ts
-import { Component, OnInit } from '@angular/core';
-import { NewsService, NewsResponse } from '../../core/services/news.service';
-import { WatchlistService, WatchlistSummaryItem } from '../../core/services/watchlist.service';
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { NewsService } from '../../core/services/news.service';
+import { WatchlistService } from '../../core/services/watchlist.service';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent {
 
   query = '';
-  loading = false;
-  errorMsg = '';
-  result: NewsResponse | null = null;
+  latest: any = null;
+  sentiment: any = null;
 
-  // ★ NEW FOR STEP 4 ★
-  watchlist: WatchlistSummaryItem[] = [];
-  watchlistLoading = false;
+  watchlist: any[] = [];
+
+  searchError: string | null = null;
 
   constructor(
     private newsService: NewsService,
-    private watchlistService: WatchlistService
+    private watchlistService: WatchlistService,
+    private router: Router
   ) {}
 
-  ngOnInit(): void {
-    this.loadWatchlistSummary();
+  ngOnInit() {
+    this.resetSearchState();
+    this.loadWatchlist();
   }
 
-  // ★ Load watchlist overview on page load
-  loadWatchlistSummary(): void {
-    this.watchlistLoading = true;
+  resetSearchState() {
+    this.query = '';
+    this.latest = null;
+    this.sentiment = null;
+    this.searchError = null;
+  }
+
+  clearSearch() {
+    this.resetSearchState();
+  }
+
+  loadWatchlist() {
     this.watchlistService.getFullWatchlist().subscribe({
-      next: (data) => {
-        this.watchlist = data;
-        this.watchlistLoading = false;
+      next: (data) => this.watchlist = data,
+      error: (err) => console.error(err)
+    });
+  }
+
+  search() {
+    this.searchError = null;
+    this.latest = null;
+    this.sentiment = null;
+
+    if (!this.query.trim()) {
+      this.searchError = 'Invalid Ticker Symbol';
+      return;
+    }
+
+    this.newsService.searchNews(this.query.toUpperCase()).subscribe({
+      next: (res) => {
+        if (!res.articles || res.articles.length === 0) {
+          this.searchError = 'Invalid Ticker Symbol';
+          return;
+        }
+
+        this.latest = res.articles[0];
+        this.sentiment = res.sentiment;
       },
       error: () => {
-        this.watchlistLoading = false;
+        this.searchError = 'Invalid Ticker Symbol';
       }
     });
   }
 
-  // Search for ticker news
-  search(): void {
-    this.errorMsg = '';
-    this.result = null;
-
-    const ticker = this.query.trim().toUpperCase();
-    if (!ticker) return;
-
-    this.loading = true;
-
-    this.newsService.searchNews(ticker).subscribe({
-      next: (data) => {
-        this.result = data;
-        this.loading = false;
-      },
-      error: () => {
-        this.errorMsg = 'No news found or server error.';
-        this.loading = false;
-      }
+  addToWatchlist(ticker: string) {
+    this.watchlistService.addToWatchlist(ticker).subscribe({
+      next: () => this.loadWatchlist(),
+      error: (err) => console.error(err)
     });
   }
 
-  // ★ Click watchlist tile → search that ticker
-  openTicker(ticker: string): void {
-    this.query = ticker;
-    this.search();
-  }
-
-  // Add to watchlist
-  addToWatchlist(): void {
-    if (!this.result) return;
-
-    this.watchlistService.addToWatchlist(this.result.ticker).subscribe({
-      next: () => {
-        alert(`${this.result!.ticker} added to your watchlist!`);
-        this.loadWatchlistSummary(); // refresh
-      },
-      error: () => alert('Could not add to watchlist.')
-    });
-  }
-
-  // Sentiment helper
-  getSentimentFromArticle(article: any): string {
-    if (!article.insights || article.insights.length === 0) return 'neutral';
-    return article.insights[0].sentiment || 'neutral';
+  openTicker(symbol: string) {
+    this.router.navigate(['/ticker', symbol]);
   }
 }

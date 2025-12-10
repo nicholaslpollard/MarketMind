@@ -38,6 +38,13 @@ export class WatchlistService {
 
   // Remove ticker
   removeFromWatchlist(ticker: string): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/remove/${ticker}`);
+    return this.http.delete(`${this.apiUrl}/${ticker}`);
+  }
+
+  // NEW — Get price for a single ticker
+  getPrice(ticker: string) {
+    return this.http.get<{ ticker: string; price: number }>(
+      `${this.apiUrl}/price/${ticker}`
+    );
   }
 }

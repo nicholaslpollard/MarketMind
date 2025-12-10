@@ -1,6 +1,7 @@
+// src/app/pages/register/register.component.ts
 import { Component } from '@angular/core';
-import { AuthService } from '../../core/services/auth.service';
 import { Router } from '@angular/router';
+import { AuthService } from '../../core/services/auth.service';
 
 @Component({
   selector: 'app-register',
@@ -8,11 +9,11 @@ import { Router } from '@angular/router';
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent {
-
-  email: string = '';
-  password: string = '';
-  successMsg: string = '';
-  errorMsg: string = '';
+  email = '';
+  password = '';
+  successMsg = '';
+  errorMsg = '';
+  loading = false;
 
   constructor(
     private auth: AuthService,
@@ -20,16 +21,31 @@ export class RegisterComponent {
   ) {}
 
   register(): void {
-    this.successMsg = '';
     this.errorMsg = '';
+    this.successMsg = '';
+    this.loading = true;
 
-    this.auth.register(this.email, this.password).subscribe({
-      next: () => {
-        this.successMsg = 'Registration successful! Redirecting...';
-        setTimeout(() => this.router.navigate(['/login']), 1200);
+    const email = this.email.trim();
+    const password = this.password;
+
+    if (!email || !password) {
+      this.errorMsg = 'Email and password are required.';
+      this.loading = false;
+      return;
+    }
+
+    this.auth.register(email, password).subscribe({
+      next: (res) => {
+        this.loading = false;
+        this.successMsg = res?.message || 'Registration successful. You can now log in.';
+        // Optionally auto-redirect after a short delay
+        setTimeout(() => {
+          this.router.navigate(['/login']);
+        }, 1200);
       },
-      error: (err: any) => {
-        this.errorMsg = err.error?.message || 'Registration failed';
+      error: (err) => {
+        this.loading = false;
+        this.errorMsg = err?.error?.message || 'Registration failed.';
       }
     });
   }

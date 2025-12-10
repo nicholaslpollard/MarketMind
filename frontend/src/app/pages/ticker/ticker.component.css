@@ -1,0 +1,74 @@
+.ticker-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ticker-symbol {
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.ticker-price {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.sent-section-title {
+  font-size: 1.1rem;
+  margin-top: 16px;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.sent-grid {
+  display: flex;
+  justify-content: space-between;
+  max-width: 400px;
+  margin-bottom: 18px;
+}
+
+.sent-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.sent-label {
+  font-weight: 600;
+  margin-bottom: 3px;
+}
+
+.sent-pos { color: #0c7c0c; }
+.sent-neutral { color: #777; }
+.sent-neg { color: #b40f0f; }
+
+.latest-box {
+  margin-top: 15px;
+  padding-top: 10px;
+  border-top: 1px solid #ccc;
+}
+
+.latest-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-top: 4px;
+}
+
+.latest-meta {
+  font-size: 0.85rem;
+  color: #666;
+  margin-bottom: 10px;
+}
+
+.article-card .article-title {
+  font-size: 1.15rem;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.article-card .article-meta {
+  font-size: 0.85rem;
+  color: #666;
+  margin-bottom: 10px;
+}

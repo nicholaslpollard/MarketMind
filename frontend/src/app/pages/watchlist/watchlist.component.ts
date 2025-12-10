@@ -1,58 +1,41 @@
-// src/app/pages/watchlist/watchlist.component.ts
-import { Component, OnInit } from '@angular/core';
-import { WatchlistService, WatchlistSummaryItem } from '../../core/services/watchlist.service';
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { WatchlistService } from '../../core/services/watchlist.service';
 
 @Component({
   selector: 'app-watchlist',
   templateUrl: './watchlist.component.html',
   styleUrls: ['./watchlist.component.css']
 })
-export class WatchlistComponent implements OnInit {
+export class WatchlistComponent {
 
-  watchlist: WatchlistSummaryItem[] = [];
-  loading = false;
-  errorMsg = '';
-  addTicker = '';
+  watchlist: any[] = [];
 
-  constructor(private watchlistService: WatchlistService) {}
+  constructor(
+    private router: Router,
+    private watchlistService: WatchlistService
+  ) {}
 
-  ngOnInit(): void {
-    this.loadWatchlist();
+  ngOnInit() {
+    this.load();
   }
 
-  loadWatchlist(): void {
-    this.loading = true;
+  load() {
     this.watchlistService.getFullWatchlist().subscribe({
-      next: (data) => {
-        this.watchlist = data;
-        this.loading = false;
-      },
-      error: () => {
-        this.errorMsg = 'Could not load watchlist.';
-        this.loading = false;
-      }
+      next: (data) => this.watchlist = data,
+      error: (err) => console.error(err)
     });
   }
 
-  addNewTicker(): void {
-    const t = this.addTicker.trim().toUpperCase();
-    if (!t) return;
-
-    this.watchlistService.addToWatchlist(t).subscribe({
-      next: () => {
-        this.addTicker = '';
-        this.loadWatchlist();
-      },
-      error: () => alert('Failed to add ticker.')
-    });
+  openTicker(symbol: string) {
+    this.router.navigate(['/ticker', symbol]);
   }
 
-  remove(ticker: string): void {
-    if (!confirm(`Remove ${ticker} from your watchlist?`)) return;
-
-    this.watchlistService.removeFromWatchlist(ticker).subscribe({
-      next: () => this.loadWatchlist(),
-      error: () => alert('Failed to remove ticker.')
+  deleteItem(symbol: string, event: Event) {
+    event.stopPropagation();  // prevent card click navigation
+    this.watchlistService.removeFromWatchlist(symbol).subscribe({
+      next: () => this.load(),
+      error: (err) => console.error(err)
     });
   }
 }

@@ -17,6 +17,7 @@ import { RegisterComponent } from './pages/register/register.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { WatchlistComponent } from './pages/watchlist/watchlist.component';
 import { SettingsComponent } from './pages/settings/settings.component';
+import { TickerComponent } from './pages/ticker/ticker.component';
 
 import { MaterialModule } from './material/material.module';
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
@@ -31,7 +32,8 @@ import { AuthInterceptor } from './core/interceptors/auth.interceptor';
     RegisterComponent,
     DashboardComponent,
     WatchlistComponent,
-    SettingsComponent
+    SettingsComponent,
+    TickerComponent
   ],
   imports: [
     BrowserModule,

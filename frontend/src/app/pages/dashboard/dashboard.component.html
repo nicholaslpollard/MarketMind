@@ -1,146 +1,143 @@
-<!-- src/app/pages/dashboard/dashboard.component.html -->
+<!-- 🔍 SEARCH SECTION -->
+<mat-card
+  class="mm-card"
+  style="max-width: 450px; margin: 0 auto 20px auto;"
+>
 
-<h1 class="page-title">MarketMind Dashboard</h1>
-
-<!-- ===================================================
-     WATCHLIST OVERVIEW SECTION
-=================================================== -->
-<mat-card class="watchlist-section">
-  <h2>Your Watchlist</h2>
-
-  <!-- Loading spinner -->
-  <mat-progress-spinner
-    *ngIf="watchlistLoading"
-    mode="indeterminate"
-    class="loading-spinner"
-  ></mat-progress-spinner>
-
-  <!-- Empty -->
-  <p *ngIf="!watchlistLoading && watchlist.length === 0" class="empty">
-    You have no tickers in your watchlist.
-  </p>
-
-  <!-- Watchlist tiles -->
-  <div class="watchlist-grid" *ngIf="watchlist.length > 0">
-    <mat-card
-      class="watchlist-card"
-      *ngFor="let item of watchlist"
-      (click)="openTicker(item.ticker)"
-    >
-      <h3>{{ item.displayName }} — {{ item.ticker }}</h3>
-
-      <p *ngIf="item.price !== null" class="price">
-        Price: ${{ item.price }}
-      </p>
-
-      <div class="sentiment-group">
-        <p><strong>Pos:</strong> {{ item.sentiment.positive }}</p>
-        <p><strong>Neu:</strong> {{ item.sentiment.neutral }}</p>
-        <p><strong>Neg:</strong> {{ item.sentiment.negative }}</p>
-      </div>
-
-      <p *ngIf="item.latest" class="latest-title">{{ item.latest.title }}</p>
-
-      <p *ngIf="item.latest">
-        Latest sentiment:
-        <span [ngClass]="item.latest.sentiment">
-          {{ item.latest.sentiment | titlecase }}
-        </span>
-      </p>
-    </mat-card>
-  </div>
-</mat-card>
-
-
-<!-- ===================================================
-     SEARCH SECTION
-=================================================== -->
-<mat-card class="search-card">
-  <h2>Search News by Ticker</h2>
-
-  <div class="search-row">
-    <input
-      matInput
-      placeholder="Enter ticker (AAPL, TSLA...)"
-      [(ngModel)]="query"
-    >
-    <button mat-raised-button color="primary" (click)="search()">Search</button>
+  <div class="mm-card-title" style="text-align:center;">
+    Search Stock News
   </div>
 
-  <p *ngIf="errorMsg" class="error">{{ errorMsg }}</p>
+  <!-- Centered Search Box -->
+  <div style="display:flex; flex-direction:column; align-items:center;">
+
+    <mat-form-field
+      appearance="outline"
+      style="width: 320px; max-width: 90%;"
+    >
+      <mat-label>Ticker Symbol (e.g., AAPL)</mat-label>
+      <input
+        matInput
+        [(ngModel)]="query"
+        placeholder="Enter a ticker"
+        (keyup.enter)="search()"
+      />
+    </mat-form-field>
+
+    <button
+      mat-raised-button
+      color="primary"
+      style="width: 200px; margin-top: 10px;"
+      (click)="search()"
+    >
+      Search
+    </button>
+
+  </div>
+
 </mat-card>
 
+<!-- ❌ INVALID TICKER MESSAGE -->
+<mat-card *ngIf="searchError" class="mm-card" style="margin-top: 25px; color: #b20000; font-weight: 600;">
+  {{ searchError }}
+</mat-card>
 
-<!-- ===================================================
-     SEARCH RESULTS (from Step 3)
-=================================================== -->
+<!-- ⭐ WATCHLIST SUMMARY (HIDDEN IF SEARCH RESULT SHOWN) -->
+<div *ngIf="!latest && !sentiment" class="mm-card-title" style="margin-top: 30px;">
+  Your Watchlist
+</div>
 
-<mat-progress-spinner
-  *ngIf="loading"
-  mode="indeterminate"
-  class="loading-spinner"
-></mat-progress-spinner>
+<div class="watchlist-grid" *ngIf="!latest && !sentiment">
+  <mat-card
+    class="mm-card"
+    *ngFor="let item of watchlist"
+    (click)="openTicker(item.ticker)"
+    style="cursor: pointer;"
+  >
+    <div class="watchlist-ticker">{{ item.ticker }}</div>
 
-<mat-card *ngIf="result" class="results-card">
-
-  <div class="header-row">
-    <div>
-      <h2>{{ result.ticker }}</h2>
-      <p class="subtext">Last 20 News Sentiments</p>
+    <div class="watchlist-price">
+      {{ item.price ? ('$' + item.price.toFixed(2)) : '—' }}
     </div>
 
-    <button mat-raised-button color="accent" (click)="addToWatchlist()">
+    <div class="mm-card-subtitle">Last 20 Sentiments:</div>
+
+    <div>
+      <div class="sent-pos">Positive: {{ item.sentiment?.positive }}</div>
+      <div class="sent-neutral">Neutral: {{ item.sentiment?.neutral }}</div>
+      <div class="sent-neg">Negative: {{ item.sentiment?.negative }}</div>
+    </div>
+
+    <div class="latest-article" *ngIf="item.latest">
+      <strong>Latest:</strong> <br />
+      {{ item.latest.title }}
+    </div>
+  </mat-card>
+</div>
+
+<!-- ⭐ SEARCH RESULTS CARD (CLICKABLE) -->
+<mat-card
+  *ngIf="latest || sentiment"
+  class="mm-card"
+  style="position: relative; cursor: pointer;"
+  (click)="openTicker(query.toUpperCase())"
+>
+
+  <!-- ❌ CLOSE BUTTON -->
+  <button
+    mat-icon-button
+    (click)="clearSearch(); $event.stopPropagation()"
+    style="position: absolute; top: 8px; right: 8px;"
+    aria-label="Close search result"
+  >
+    X
+  </button>
+
+  <div class="mm-card-title">
+    {{ query.toUpperCase() }}
+  </div>
+
+  <div class="mm-card-subtitle">Last 20 News Sentiments:</div>
+
+  <div style="margin-bottom: 12px;">
+    <span class="sent-pos">Positive: {{ sentiment?.positive }}</span> •
+    <span class="sent-neutral">Neutral: {{ sentiment?.neutral }}</span> •
+    <span class="sent-neg">Negative: {{ sentiment?.negative }}</span>
+  </div>
+
+  <!-- Latest Article -->
+  <div class="article-card" *ngIf="latest">
+    <div class="article-title">{{ latest.title }}</div>
+
+    <div class="article-meta">
+      {{ latest.published_utc | date:'short' }} •
+      <span
+        [ngClass]="{
+          'sent-pos': latest.insights?.[0]?.sentiment === 'positive',
+          'sent-neutral': latest.insights?.[0]?.sentiment === 'neutral',
+          'sent-neg': latest.insights?.[0]?.sentiment === 'negative'
+        }"
+      >
+        {{ latest.insights?.[0]?.sentiment | titlecase }}
+      </span>
+    </div>
+
+    <a
+      [href]="latest.article_url"
+      target="_blank"
+      (click)="$event.stopPropagation()"
+    >
+      Read Article
+    </a>
+
+    <button
+      mat-button
+      color="accent"
+      style="margin-top: 12px;"
+      (click)="addToWatchlist(query.toUpperCase()); $event.stopPropagation()"
+    >
       Add to Watchlist
     </button>
   </div>
 
-  <div class="sentiment-summary">
-    <p><strong>Positive:</strong> {{ result.sentiment.positive }}</p>
-    <p><strong>Neutral:</strong> {{ result.sentiment.neutral }}</p>
-    <p><strong>Negative:</strong> {{ result.sentiment.negative }}</p>
-  </div>
-
-  <hr>
-
-  <h3>Latest Article</h3>
-
-  <div *ngIf="result.articles.length > 0">
-    <p class="latest-title">
-      {{ result.articles[0].title }}
-    </p>
-
-    <p>
-      Sentiment:
-      <span [ngClass]="getSentimentFromArticle(result.articles[0])">
-        {{ getSentimentFromArticle(result.articles[0]) | titlecase }}
-      </span>
-    </p>
-
-    <p>
-      <a href="{{ result.articles[0].article_url }}" target="_blank">
-        Read Article →
-      </a>
-    </p>
-  </div>
-
-  <hr>
-
-  <h3>All Recent Articles</h3>
-
-  <div class="article-list">
-    <div *ngFor="let article of result.articles" class="article-card">
-      <p class="article-title">{{ article.title }}</p>
-
-      <p>
-        Sentiment:
-        <span [ngClass]="getSentimentFromArticle(article)">
-          {{ getSentimentFromArticle(article) | titlecase }}
-        </span>
-      </p>
-
-      <a href="{{ article.article_url }}" target="_blank">
-        Open Article →
-      </a>
-    </div>
-  </div>
 </mat-card>

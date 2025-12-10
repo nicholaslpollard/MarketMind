@@ -1,11 +1,38 @@
+/* src/app/layout/navbar/navbar.component.css */
+
+.navbar-toolbar {
+  background-color: #0a1a2f; /* dark navy */
+  color: #ffffff;
+  padding: 0 24px;
+}
+
+.brand {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #00c0a3; /* aqua accent */
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.brand:hover {
+  opacity: 0.9;
+}
+
 .spacer {
   flex: 1 1 auto;
 }
 
-.brand {
-  cursor: pointer;
-  font-weight: bold;
-  font-size: 20px;
-  text-decoration: none;
-  color: white;
+.user-label {
+  margin-right: 16px;
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+button[mat-button] {
+  font-weight: 500;
+  text-transform: none;
+}
+
+button[mat-button] + button[mat-button] {
+  margin-left: 8px;
 }

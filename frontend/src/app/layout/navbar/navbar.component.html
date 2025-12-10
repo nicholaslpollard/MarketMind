@@ -1,17 +1,29 @@
-<mat-toolbar color="primary">
-  <span class="brand" routerLink="/">MarketMind</span>
+<mat-toolbar color="primary" class="mm-toolbar">
+
+  <!-- Brand -->
+  <span class="brand" style="cursor: pointer;" (click)="goHome()">
+    MarketMind
+  </span>
 
   <span class="spacer"></span>
 
-  <ng-container *ngIf="!isLoggedIn">
-    <button mat-button routerLink="/login">Login</button>
-    <button mat-button routerLink="/register">Register</button>
-  </ng-container>
+  <!-- When logged in -->
+  <ng-container *ngIf="loggedIn; else loggedOut">
+    <span class="user-email">
+      {{ userEmail }}
+    </span>
 
-  <ng-container *ngIf="isLoggedIn">
     <button mat-button routerLink="/dashboard">Dashboard</button>
     <button mat-button routerLink="/watchlist">Watchlist</button>
     <button mat-button routerLink="/settings">Settings</button>
+
     <button mat-button color="warn" (click)="logout()">Logout</button>
   </ng-container>
+
+  <!-- When logged out -->
+  <ng-template #loggedOut>
+    <button mat-button routerLink="/login">Login</button>
+    <button mat-button routerLink="/register">Register</button>
+  </ng-template>
+
 </mat-toolbar>

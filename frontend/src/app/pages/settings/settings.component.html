@@ -1,1 +1,43 @@
-<p>settings works!</p>
+<div class="settings-container">
+
+  <h2>Account Settings</h2>
+
+  <!-- USER INFO -->
+  <div class="settings-card">
+    <h3>User Info</h3>
+    <p><strong>Email:</strong> {{ userEmail }}</p>
+  </div>
+
+  <!-- CHANGE PASSWORD -->
+  <div class="settings-card">
+    <h3>Change Password</h3>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Old Password</mat-label>
+      <input matInput type="password" [(ngModel)]="oldPassword" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>New Password</mat-label>
+      <input matInput type="password" [(ngModel)]="newPassword" />
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" (click)="savePassword()">
+      Update Password
+    </button>
+
+    <p class="message">{{ passwordMessage }}</p>
+  </div>
+
+  <!-- DELETE ACCOUNT -->
+  <div class="settings-card danger">
+    <h3>Delete Account</h3>
+
+    <button mat-raised-button color="warn" (click)="deleteAccount()">
+      Delete My Account
+    </button>
+
+    <p class="message">{{ deleteMessage }}</p>
+  </div>
+
+</div>

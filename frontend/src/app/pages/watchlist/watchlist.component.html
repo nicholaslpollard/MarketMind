@@ -1,64 +1,78 @@
-<!-- src/app/pages/watchlist/watchlist.component.html -->
+<div class="container" style="max-width: 1000px; margin: 30px auto;">
 
-<h1 class="page-title">Your Watchlist</h1>
+  <div class="mm-card-title">Your Watchlist</div>
 
-<!-- Add ticker form -->
-<mat-card class="add-card">
-  <h3>Add a new ticker</h3>
-
-  <div class="add-row">
-    <input
-      matInput
-      placeholder="Enter ticker (AAPL, TSLA...)"
-      [(ngModel)]="addTicker"
+  <div class="watchlist-grid">
+    <mat-card
+      class="mm-card"
+      *ngFor="let item of watchlist"
+      (click)="openTicker(item.ticker)"
+      style="cursor: pointer; position: relative; padding-bottom: 50px;"
     >
-    <button mat-raised-button color="primary" (click)="addNewTicker()">
-      Add
-    </button>
-  </div>
-</mat-card>
 
-<!-- Loading -->
-<mat-progress-spinner
-  *ngIf="loading"
-  mode="indeterminate"
-  class="loading-spinner"
-></mat-progress-spinner>
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <div class="watchlist-ticker">{{ item.ticker }}</div>
+        <div class="watchlist-price">
+          {{ item.price ? ('$' + item.price.toFixed(2)) : '—' }}
+        </div>
+      </div>
 
-<!-- Error -->
-<p *ngIf="errorMsg" class="error">{{ errorMsg }}</p>
+      <div class="mm-card-subtitle" style="margin-top: 10px; margin-bottom: 8px;">
+        Last 20 Sentiment Summary:
+      </div>
 
-<!-- When empty -->
-<p *ngIf="!loading && watchlist.length === 0" class="empty">
-  You have no watchlist items.
-</p>
+      <div style="line-height: 1.7;">
+        <span class="sent-pos">
+          Positive: {{ item.sentiment?.positive }}
+          <span class="sent-chip pos"></span>
+        </span>
+        <br />
 
-<!-- Watchlist grid -->
-<div class="watchlist-grid" *ngIf="watchlist.length > 0">
-  <mat-card class="watchlist-card" *ngFor="let item of watchlist">
-    <div class="header-row">
-      <h2>{{ item.displayName }} — {{ item.ticker }}</h2>
-      <button mat-mini-fab color="warn" (click)="remove(item.ticker)">
-        X
-      </button>
-    </div>
+        <span class="sent-neutral">
+          Neutral: {{ item.sentiment?.neutral }}
+          <span class="sent-chip neu"></span>
+        </span>
+        <br />
 
-    <p class="price" *ngIf="item.price !== null">Price: ${{ item.price }}</p>
+        <span class="sent-neg">
+          Negative: {{ item.sentiment?.negative }}
+          <span class="sent-chip neg"></span>
+        </span>
+      </div>
 
-    <div class="sentiment-group">
-      <p><strong>Positive:</strong> {{ item.sentiment.positive }}</p>
-      <p><strong>Neutral:</strong> {{ item.sentiment.neutral }}</p>
-      <p><strong>Negative:</strong> {{ item.sentiment.negative }}</p>
-    </div>
+      <div class="latest-article" *ngIf="item.latest" style="margin-top: 14px;">
+        <strong>Latest:</strong><br />
+        <span class="article-title">{{ item.latest.title }}</span>
+        <br />
 
-    <div *ngIf="item.latest">
-      <p class="latest-title">{{ item.latest.title }}</p>
-      <p>
-        Sentiment:
-        <span [ngClass]="item.latest.sentiment">
+        <span
+          [ngClass]="{
+            'sent-pos': item.latest.sentiment === 'positive',
+            'sent-neutral': item.latest.sentiment === 'neutral',
+            'sent-neg': item.latest.sentiment === 'negative'
+          }"
+        >
           {{ item.latest.sentiment | titlecase }}
         </span>
-      </p>
-    </div>
-  </mat-card>
+      </div>
+
+      <!-- Bottom-right delete button -->
+      <div style="
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+      ">
+        <button
+          mat-raised-button
+          color="warn"
+          style="padding: 2px 10px; font-size: 0.8rem;"
+          (click)="deleteItem(item.ticker, $event)"
+        >
+          Delete
+        </button>
+      </div>
+
+    </mat-card>
+  </div>
+
 </div>

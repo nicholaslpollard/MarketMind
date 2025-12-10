@@ -1,21 +1,47 @@
-<div class="auth-container">
+<!-- src/app/pages/login/login.component.html -->
+<div class="auth-page">
   <mat-card class="auth-card">
-    <h2>Login</h2>
+    <h1>Login</h1>
 
-    <mat-form-field appearance="outline" class="full">
-      <mat-label>Email</mat-label>
-      <input matInput [(ngModel)]="email" type="email" />
-    </mat-form-field>
+    <form (ngSubmit)="login()">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Email</mat-label>
+        <input
+          matInput
+          [(ngModel)]="email"
+          name="email"
+          type="email"
+          required
+        />
+      </mat-form-field>
 
-    <mat-form-field appearance="outline" class="full">
-      <mat-label>Password</mat-label>
-      <input matInput [(ngModel)]="password" type="password" />
-    </mat-form-field>
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Password</mat-label>
+        <input
+          matInput
+          [(ngModel)]="password"
+          name="password"
+          type="password"
+          required
+        />
+      </mat-form-field>
 
-    <button mat-raised-button color="primary" class="full" (click)="login()">
-      Login
-    </button>
+      <button
+        mat-raised-button
+        color="primary"
+        class="full-width"
+        type="submit"
+        [disabled]="loading"
+      >
+        {{ loading ? 'Logging in…' : 'Login' }}
+      </button>
 
-    <p class="error" *ngIf="errorMsg">{{ errorMsg }}</p>
+      <p class="error" *ngIf="errorMsg">{{ errorMsg }}</p>
+    </form>
+
+    <p class="auth-switch">
+      Don’t have an account?
+      <a routerLink="/register">Register here</a>
+    </p>
   </mat-card>
 </div>

@@ -1,6 +1,7 @@
+// src/app/pages/login/login.component.ts
 import { Component } from '@angular/core';
-import { AuthService } from '../../core/services/auth.service';
 import { Router } from '@angular/router';
+import { AuthService } from '../../core/services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -8,10 +9,10 @@ import { Router } from '@angular/router';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
-
-  email: string = '';
-  password: string = '';
-  errorMsg: string = '';
+  email = '';
+  password = '';
+  errorMsg = '';
+  loading = false;
 
   constructor(
     private auth: AuthService,
@@ -20,14 +21,25 @@ export class LoginComponent {
 
   login(): void {
     this.errorMsg = '';
+    this.loading = true;
 
-    this.auth.login(this.email, this.password).subscribe({
-      next: (res: any) => {
-        localStorage.setItem('token', res.token);
+    const email = this.email.trim();
+    const password = this.password;
+
+    if (!email || !password) {
+      this.errorMsg = 'Email and password are required.';
+      this.loading = false;
+      return;
+    }
+
+    this.auth.login(email, password).subscribe({
+      next: () => {
+        this.loading = false;
         this.router.navigate(['/dashboard']);
       },
-      error: (err: any) => {
-        this.errorMsg = err.error?.message || 'Invalid email or password';
+      error: (err) => {
+        this.loading = false;
+        this.errorMsg = err?.error?.message || 'Invalid email or password.';
       }
     });
   }
